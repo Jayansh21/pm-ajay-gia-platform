@@ -264,22 +264,22 @@ const Home = () => {
             Join us in creating a more equitable and efficient system for SC community development and empowerment.
           </p>
                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                   <Link 
+                     to="/app/dashboard" 
+                     className="inline-flex items-center bg-yellow-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                   >
+                     <BarChart3 size={24} className="mr-3" />
+                     🚀 Access Platform with Demo Data
+                     <ArrowRight size={20} className="ml-3" />
+                   </Link>
                    <button
                      onClick={initializeDemoData}
                      disabled={isInitializing}
-                     className="inline-flex items-center bg-yellow-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                     className="inline-flex items-center bg-white text-indigo-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                    >
                      <Database size={24} className="mr-3" />
-                     {isInitializing ? 'Loading Demo Data...' : '🚀 Load Demo Data & Access Platform'}
+                     {isInitializing ? 'Loading Demo Data...' : 'Load Demo Data'}
                    </button>
-                   <Link 
-                     to="/app/dashboard" 
-                     className="inline-flex items-center bg-white text-green-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl"
-                   >
-                     <BarChart3 size={24} className="mr-3" />
-                     Access Platform
-                     <ArrowRight size={20} className="ml-3" />
-                   </Link>
                    <Link 
                      to="/app/beneficiaries/register" 
                      className="inline-flex items-center bg-white bg-opacity-20 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-opacity-30 transition-all duration-300 border-2 border-white border-opacity-30"

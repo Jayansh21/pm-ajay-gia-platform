@@ -12,6 +12,12 @@ const api = axios.create({
 
 // Helper function to use demo data as fallback
 const withDemoFallback = async (apiCall, demoData) => {
+  // Always use demo data for now (for Vercel deployment)
+  console.log('Using demo data for Vercel deployment');
+  return { data: demoData };
+  
+  // Original logic (commented out for Vercel)
+  /*
   // Check if demo mode is enabled
   if (localStorage.getItem('demoMode') === 'true') {
     console.log('Demo mode enabled, using demo data');
@@ -31,6 +37,7 @@ const withDemoFallback = async (apiCall, demoData) => {
     console.log('API failed, using demo data:', error.message);
     return { data: demoData };
   }
+  */
 };
 
 // Dashboard

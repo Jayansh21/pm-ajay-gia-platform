@@ -262,14 +262,7 @@ const Home = () => {
                      Access Platform
                      <ArrowRight size={20} className="ml-3" />
                    </Link>
-                   <button
-                     onClick={initializeDemoData}
-                     disabled={isInitializing}
-                     className="inline-flex items-center bg-yellow-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                   >
-                     <Database size={24} className="mr-3" />
-                     {isInitializing ? 'Initializing...' : 'Load Demo Data'}
-                   </button>
+                  {/* Demo data init hidden in production (mock API already serves data) */}
                    <Link 
                      to="/app/beneficiaries/register" 
                      className="inline-flex items-center bg-white bg-opacity-20 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-opacity-30 transition-all duration-300 border-2 border-white border-opacity-30"

@@ -1,4 +1,4 @@
-const { trainingPrograms } = require('../_data');
+import { trainingPrograms } from '../_data';
 
 export default function handler(req, res) {
   res.status(200).json(trainingPrograms);

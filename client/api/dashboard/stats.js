@@ -1,4 +1,4 @@
-const { beneficiaries, projects } = require('../_data');
+import { beneficiaries, projects } from '../_data';
 
 export default function handler(req, res) {
   const totalBeneficiaries = beneficiaries.length;

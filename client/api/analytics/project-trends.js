@@ -1,4 +1,4 @@
-const { projects } = require('../_data');
+import { projects } from '../_data';
 
 export default function handler(req, res) {
   const byDate = Object.values(

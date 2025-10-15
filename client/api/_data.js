@@ -1,6 +1,6 @@
 // In-memory mock data for Vercel serverless API (non-persistent)
 
-const beneficiaries = [
+export const beneficiaries = [
   {
     id: 'b1',
     name: 'Rajesh Kumar',
@@ -49,7 +49,7 @@ const beneficiaries = [
   },
 ];
 
-const projects = [
+export const projects = [
   {
     id: 'p1',
     beneficiary_id: 'b1',
@@ -82,13 +82,13 @@ const projects = [
   },
 ];
 
-const skills = [
+export const skills = [
   { id: 's1', name: 'Tailoring', category: 'Income Generation', demand_level: 'High', avg_income_potential: 15000 },
   { id: 's2', name: 'Plumbing', category: 'Skill Development', demand_level: 'High', avg_income_potential: 20000 },
   { id: 's3', name: 'Carpentry', category: 'Skill Development', demand_level: 'Medium', avg_income_potential: 18000 },
 ];
 
-const trainingPrograms = [
+export const trainingPrograms = [
   {
     id: 't1',
     name: 'Advanced Tailoring Course',
@@ -117,16 +117,8 @@ const trainingPrograms = [
   },
 ];
 
-const auditLogs = [
+export const auditLogs = [
   { id: 'a1', entity_type: 'beneficiary', entity_id: 'b1', action: 'created', performed_by: 'system', timestamp: '2025-10-01T00:00:00.000Z', details: 'Beneficiary registered successfully' },
 ];
-
-module.exports = {
-  beneficiaries,
-  projects,
-  skills,
-  trainingPrograms,
-  auditLogs,
-};
 
 

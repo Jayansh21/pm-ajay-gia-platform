@@ -1,4 +1,4 @@
-const { beneficiaries } = require('../_data');
+import { beneficiaries } from '../_data';
 
 export default function handler(req, res) {
   if (req.method === 'GET') {

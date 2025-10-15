@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FolderPlus, TrendingUp, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { FolderPlus, TrendingUp, Clock, CheckCircle, XCircle, AlertCircle, MapPin, Users } from 'lucide-react';
 import { getProjects, updateProjectStatus } from '../api/api';
 
 const Projects = () => {
@@ -79,63 +79,65 @@ const Projects = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Project Management</h1>
-          <p className="text-gray-600 mt-1">Track Income Generation, Skill Development & Infrastructure projects</p>
+      <div className="glass-card">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-4xl font-bold gradient-text mb-2">Project Management</h1>
+            <p className="text-gray-600 text-lg">Track Income Generation, Skill Development & Infrastructure projects</p>
+          </div>
+          <Link to="/projects/submit" className="btn-primary flex items-center text-lg">
+            <FolderPlus size={24} className="mr-3" />
+            Submit New Project
+          </Link>
         </div>
-        <Link to="/projects/submit" className="btn-primary flex items-center">
-          <FolderPlus size={20} className="mr-2" />
-          Submit New Project
-        </Link>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="card bg-blue-50 border border-blue-200">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="stat-card bg-gradient-blue hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Submitted</p>
-              <p className="text-2xl font-bold text-blue-700">
+              <p className="text-white text-opacity-90 text-sm font-semibold uppercase tracking-wide mb-1">Submitted</p>
+              <p className="text-4xl font-bold text-white">
                 {projects.filter(p => (p.status || '') === 'submitted').length}
               </p>
             </div>
-            <Clock size={28} className="text-blue-600" />
+            <Clock size={36} className="text-white opacity-80" />
           </div>
         </div>
-        <div className="card bg-purple-50 border border-purple-200">
+        <div className="stat-card bg-gradient-purple hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">In Progress</p>
-              <p className="text-2xl font-bold text-purple-700">
+              <p className="text-white text-opacity-90 text-sm font-semibold uppercase tracking-wide mb-1">In Progress</p>
+              <p className="text-4xl font-bold text-white">
                 {projects.filter(p => (p.status || '') === 'in_progress').length}
               </p>
             </div>
-            <TrendingUp size={28} className="text-purple-600" />
+            <TrendingUp size={36} className="text-white opacity-80" />
           </div>
         </div>
-        <div className="card bg-green-50 border border-green-200">
+        <div className="stat-card bg-gradient-green hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Completed</p>
-              <p className="text-2xl font-bold text-green-700">
+              <p className="text-white text-opacity-90 text-sm font-semibold uppercase tracking-wide mb-1">Completed</p>
+              <p className="text-4xl font-bold text-white">
                 {projects.filter(p => (p.status || '') === 'completed').length}
               </p>
             </div>
-            <CheckCircle size={28} className="text-green-600" />
+            <CheckCircle size={36} className="text-white opacity-80" />
           </div>
         </div>
-        <div className="card bg-orange-50 border border-orange-200">
+        <div className="stat-card bg-gradient-orange hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Total Funding</p>
-              <p className="text-xl font-bold text-orange-700">
+              <p className="text-white text-opacity-90 text-sm font-semibold uppercase tracking-wide mb-1">Total Funding</p>
+              <p className="text-3xl font-bold text-white">
                 ₹{(projects.reduce((sum, p) => sum + (p.approved_amount || 0), 0) / 100000).toFixed(1)}L
               </p>
             </div>
-            <TrendingUp size={28} className="text-orange-600" />
+            <TrendingUp size={36} className="text-white opacity-80" />
           </div>
         </div>
       </div>
@@ -177,67 +179,74 @@ const Projects = () => {
       {/* Projects Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {projects.map((project) => (
-          <div key={project.id} className="card hover:shadow-xl transition-all">
-            <div className="space-y-3">
+          <div key={project.id} className="glass-card hover-lift animate-fadeIn border-l-4 border-indigo-500">
+            <div className="space-y-4">
               {/* Header */}
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900">{project.title}</h3>
-                  <p className="text-sm text-gray-600">{project.beneficiary_name}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-1">{project.title}</h3>
+                  <div className="flex items-center text-gray-600">
+                    <Users size={14} className="mr-1" />
+                    <p className="text-sm font-medium">{project.beneficiary_name}</p>
+                  </div>
                 </div>
-                <span className={`badge ${getStatusBadge(project.status)}`}>
-                  {(project.status || 'submitted').replace('_', ' ')}
+                <span className={`badge shadow-md ${getStatusBadge(project.status)}`}>
+                  {(project.status || 'submitted').replace('_', ' ').toUpperCase()}
                 </span>
               </div>
 
               {/* Category & Type */}
-              <div className="flex gap-2">
-                <span className={`badge ${getCategoryColor(project.category)}`}>
+              <div className="flex gap-2 flex-wrap">
+                <span className={`badge shadow-sm ${getCategoryColor(project.category)}`}>
                   {project.category}
                 </span>
-                <span className="badge bg-gray-100 text-gray-700">
+                <span className="badge bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 shadow-sm">
                   {project.project_type}
                 </span>
               </div>
 
               {/* Description */}
-              <p className="text-sm text-gray-600 line-clamp-2">{project.description}</p>
+              <p className="text-sm text-gray-700 line-clamp-2 leading-relaxed">{project.description}</p>
 
               {/* Location */}
-              <div className="text-xs text-gray-500">
-                📍 {project.district}, {project.state}
+              <div className="flex items-center text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
+                <MapPin size={16} className="mr-2 text-indigo-500" />
+                <span className="font-medium">{project.district}, {project.state}</span>
               </div>
 
               {/* Amounts */}
-              <div className="grid grid-cols-2 gap-4 pt-3 border-t">
-                <div>
-                  <p className="text-xs text-gray-500">Requested</p>
-                  <p className="font-semibold text-gray-900">₹{project.requested_amount.toLocaleString()}</p>
+              <div className="grid grid-cols-2 gap-4 pt-3 border-t-2 border-gray-100">
+                <div className="bg-blue-50 p-3 rounded-xl">
+                  <p className="text-xs text-blue-600 font-semibold uppercase tracking-wide mb-1">Requested</p>
+                  <p className="text-lg font-bold text-blue-700">₹{project.requested_amount.toLocaleString()}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500">Approved</p>
-                  <p className="font-semibold text-green-600">₹{project.approved_amount.toLocaleString()}</p>
+                <div className="bg-green-50 p-3 rounded-xl">
+                  <p className="text-xs text-green-600 font-semibold uppercase tracking-wide mb-1">Approved</p>
+                  <p className="text-lg font-bold text-green-700">₹{project.approved_amount.toLocaleString()}</p>
                 </div>
               </div>
 
               {/* Progress Bar (if in progress) */}
               {(project.status || '') === 'in_progress' && (
-                <div>
-                  <div className="flex justify-between text-xs text-gray-600 mb-1">
-                    <span>Progress</span>
-                    <span>{project.completion_percentage}%</span>
+                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border-2 border-purple-200">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm font-bold text-purple-900">Project Progress</span>
+                    <span className="text-2xl font-bold text-purple-700">{project.completion_percentage}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="progress-bar">
                     <div
-                      className="bg-primary-600 h-2 rounded-full transition-all"
+                      className="progress-fill"
                       style={{ width: `${project.completion_percentage}%` }}
                     ></div>
                   </div>
                   
                   {/* Progress Update Section */}
-                  <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-                    <h4 className="text-sm font-medium text-blue-900 mb-2">Update Progress</h4>
-                    <div className="flex gap-2">
+                  <div className="mt-4 p-4 bg-white rounded-xl shadow-sm">
+                    <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center">
+                      <TrendingUp size={16} className="mr-2 text-indigo-600" />
+                      Update Progress
+                    </h4>
+                    <div className="flex gap-3 items-center">
                       <input
                         type="range"
                         min="0"
@@ -245,14 +254,15 @@ const Projects = () => {
                         step="5"
                         value={project.completion_percentage || 0}
                         onChange={(e) => handleProgressUpdate(project.id, parseInt(e.target.value))}
-                        className="flex-1"
+                        className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
                       />
-                      <span className="text-sm font-medium text-blue-700 min-w-[3rem]">
+                      <span className="text-lg font-bold text-indigo-700 min-w-[4rem] text-center bg-indigo-100 px-3 py-1 rounded-lg">
                         {project.completion_percentage || 0}%
                       </span>
                     </div>
-                    <p className="text-xs text-blue-600 mt-1">
-                      Slide to update your project progress
+                    <p className="text-xs text-gray-600 mt-2 flex items-center">
+                      <AlertCircle size={12} className="mr-1" />
+                      Slide to update your project completion percentage
                     </p>
                   </div>
                 </div>

@@ -7,28 +7,58 @@ import {
   TrendingUp, 
   IndianRupee,
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  Award,
+  Target,
+  Zap
 } from 'lucide-react';
 import { getDashboardStats } from '../api/api';
 
-const StatCard = ({ icon: Icon, title, value, subtitle, color, link }) => (
-  <div className="card group hover:scale-105">
+const StatCard = ({ icon: Icon, title, value, subtitle, gradient, link, delay }) => (
+  <div 
+    className={`stat-card ${gradient} animate-fadeIn hover-lift`}
+    style={{ animationDelay: `${delay}ms` }}
+  >
     <div className="flex items-start justify-between">
-      <div>
-        <p className="text-gray-600 text-sm mb-1">{title}</p>
-        <h3 className="text-3xl font-bold text-gray-900">{value}</h3>
-        {subtitle && <p className="text-gray-500 text-xs mt-1">{subtitle}</p>}
-      </div>
-      <div className={`p-3 rounded-lg ${color}`}>
-        <Icon size={24} className="text-white" />
+      <div className="flex-1">
+        <div className="flex items-center mb-2">
+          <Icon size={28} className="mr-3 opacity-90" />
+          <p className="text-white text-opacity-90 text-sm font-medium uppercase tracking-wide">{title}</p>
+        </div>
+        <h3 className="text-4xl font-bold mb-1">{value}</h3>
+        {subtitle && <p className="text-white text-opacity-80 text-sm">{subtitle}</p>}
       </div>
     </div>
     {link && (
-      <Link to={link} className="mt-4 flex items-center text-primary-600 hover:text-primary-700 text-sm font-medium">
-        View Details <ArrowRight size={16} className="ml-1" />
+      <Link 
+        to={link} 
+        className="mt-4 inline-flex items-center text-white text-opacity-90 hover:text-opacity-100 text-sm font-semibold bg-white bg-opacity-20 px-4 py-2 rounded-lg hover:bg-opacity-30 transition-all"
+      >
+        View Details <ArrowRight size={16} className="ml-2" />
       </Link>
     )}
   </div>
+);
+
+const QuickActionCard = ({ icon: Icon, title, subtitle, gradient, link, delay }) => (
+  <Link 
+    to={link} 
+    className={`glass-card hover-lift animate-slideIn group`}
+    style={{ animationDelay: `${delay}ms` }}
+  >
+    <div className="flex items-center">
+      <div className={`p-4 rounded-2xl ${gradient} mr-4 transform group-hover:scale-110 transition-transform duration-300`}>
+        <Icon className="text-white" size={28} />
+      </div>
+      <div>
+        <h3 className="font-bold text-gray-900 text-lg mb-1">{title}</h3>
+        <p className="text-sm text-gray-600">{subtitle}</p>
+      </div>
+    </div>
+    <div className="mt-4 flex items-center text-indigo-600 font-semibold text-sm">
+      Get Started <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-2 transition-transform" />
+    </div>
+  </Link>
 );
 
 const Dashboard = () => {
@@ -53,138 +83,188 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <div className="spinner"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl p-6 text-white shadow-lg">
-        <h1 className="text-3xl font-bold mb-2">Welcome to PM-AJAY GIA Platform</h1>
-        <p className="text-primary-100">
-          Empowering SC communities through Income Generation, Skill Development, and Infrastructure Support
-        </p>
+      <div className="glass-card">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold gradient-text mb-2">Dashboard Overview</h1>
+          <p className="text-gray-600 text-lg">Real-time insights into the PM-AJAY GIA platform performance and impact</p>
+        </div>
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          icon={Users}
-          title="Total Beneficiaries"
-          value={stats?.totalBeneficiaries || 0}
-          subtitle={`${stats?.verifiedBeneficiaries || 0} verified`}
-          color="bg-blue-500"
-          link="/beneficiaries"
-        />
-        <StatCard
-          icon={CheckCircle}
-          title="Avg Eligibility Score"
-          value={stats?.avgEligibilityScore || '0'}
-          subtitle="Out of 100"
-          color="bg-green-500"
-        />
-        <StatCard
-          icon={FolderKanban}
-          title="Total Projects"
-          value={stats?.totalProjects || 0}
-          subtitle={`${stats?.activeProjects || 0} active`}
-          color="bg-purple-500"
-          link="/projects"
-        />
-        <StatCard
-          icon={IndianRupee}
-          title="Funding Approved"
-          value={`₹${((stats?.totalFundingApproved || 0) / 100000).toFixed(1)}L`}
-          subtitle={`${stats?.completedProjects || 0} completed`}
-          color="bg-orange-500"
-        />
+      <div>
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+          <TrendingUp size={28} className="mr-3" />
+          Key Performance Indicators
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatCard
+            icon={Users}
+            title="Total Beneficiaries"
+            value={stats?.totalBeneficiaries || 0}
+            subtitle={`${stats?.verifiedBeneficiaries || 0} verified beneficiaries`}
+            gradient="bg-gradient-blue"
+            link="/beneficiaries"
+            delay={0}
+          />
+          <StatCard
+            icon={CheckCircle}
+            title="Eligibility Score"
+            value={stats?.avgEligibilityScore || '0'}
+            subtitle="Average score out of 100"
+            gradient="bg-gradient-green"
+            delay={100}
+          />
+          <StatCard
+            icon={FolderKanban}
+            title="Total Projects"
+            value={stats?.totalProjects || 0}
+            subtitle={`${stats?.activeProjects || 0} active projects running`}
+            gradient="bg-gradient-purple"
+            link="/projects"
+            delay={200}
+          />
+          <StatCard
+            icon={IndianRupee}
+            title="Funding Approved"
+            value={`₹${((stats?.totalFundingApproved || 0) / 100000).toFixed(1)}L`}
+            subtitle={`${stats?.completedProjects || 0} projects completed`}
+            gradient="bg-gradient-orange"
+            delay={300}
+          />
+        </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Link to="/beneficiaries/register" className="card bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 hover:border-blue-400">
-          <div className="flex items-center">
-            <div className="p-3 bg-blue-500 rounded-lg mr-4">
-              <Users className="text-white" size={24} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Register Beneficiary</h3>
-              <p className="text-sm text-gray-600">Add new SC beneficiary</p>
-            </div>
-          </div>
-        </Link>
-
-        <Link to="/projects/submit" className="card bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 hover:border-purple-400">
-          <div className="flex items-center">
-            <div className="p-3 bg-purple-500 rounded-lg mr-4">
-              <FolderKanban className="text-white" size={24} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Submit Project</h3>
-              <p className="text-sm text-gray-600">Income/Skill/Infrastructure</p>
-            </div>
-          </div>
-        </Link>
-
-        <Link to="/analytics" className="card bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 hover:border-green-400">
-          <div className="flex items-center">
-            <div className="p-3 bg-green-500 rounded-lg mr-4">
-              <TrendingUp className="text-white" size={24} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">View Analytics</h3>
-              <p className="text-sm text-gray-600">Data-driven insights</p>
-            </div>
-          </div>
-        </Link>
+      <div>
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+          <Zap size={28} className="mr-3" />
+          Quick Actions
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <QuickActionCard
+            icon={Users}
+            title="Manage Beneficiaries"
+            subtitle="View and manage all registered beneficiaries"
+            gradient="bg-gradient-to-br from-blue-500 to-blue-600"
+            link="/beneficiaries"
+            delay={0}
+          />
+          <QuickActionCard
+            icon={FolderKanban}
+            title="Project Management"
+            subtitle="Track and manage all ongoing projects"
+            gradient="bg-gradient-to-br from-purple-500 to-purple-600"
+            link="/projects"
+            delay={100}
+          />
+          <QuickActionCard
+            icon={TrendingUp}
+            title="View Analytics"
+            subtitle="Data-driven insights and visualizations"
+            gradient="bg-gradient-to-br from-green-500 to-green-600"
+            link="/analytics"
+            delay={200}
+          />
+        </div>
       </div>
 
       {/* State-wise Distribution */}
-      <div className="card">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Top States by Beneficiary Count</h2>
-        <div className="space-y-3">
+      <div className="glass-card animate-fadeIn">
+        <div className="flex items-center mb-6">
+          <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl mr-4">
+            <Users size={24} className="text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900">Top States by Beneficiary Count</h2>
+        </div>
+        <div className="space-y-4">
           {stats?.topStates?.slice(0, 5).map((state, index) => (
-            <div key={state.state} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div 
+              key={state.state} 
+              className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border-2 border-gray-100 hover:border-indigo-300 transition-all hover:shadow-lg"
+            >
               <div className="flex items-center">
-                <span className="font-semibold text-lg text-primary-600 mr-3">#{index + 1}</span>
-                <span className="font-medium text-gray-900">{state.state}</span>
+                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl mr-4">
+                  <span className="font-bold text-white text-lg">#{index + 1}</span>
+                </div>
+                <span className="font-bold text-gray-900 text-lg">{state.state}</span>
               </div>
-              <span className="badge bg-primary-100 text-primary-700">{state.count} beneficiaries</span>
+              <div className="flex items-center">
+                <span className="badge bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-lg px-5 py-2">
+                  {state.count} beneficiaries
+                </span>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Projects by Category */}
-      <div className="card">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Projects by Category</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {stats?.projectsByCategory?.map((category) => (
-            <div key={category.category} className="p-4 bg-gradient-to-br from-primary-50 to-primary-100 rounded-lg">
-              <h3 className="font-medium text-gray-700 mb-1">{category.category}</h3>
-              <p className="text-2xl font-bold text-primary-700">{category.count}</p>
+      <div className="glass-card animate-fadeIn">
+        <div className="flex items-center mb-6">
+          <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl mr-4">
+            <FolderKanban size={24} className="text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900">Projects by Category</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {stats?.projectsByCategory?.map((category, index) => (
+            <div 
+              key={category.category} 
+              className="p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border-2 border-indigo-100 hover:border-indigo-300 transition-all hover:shadow-xl transform hover:-translate-y-1"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <h3 className="font-semibold text-gray-700 mb-2 text-sm uppercase tracking-wide">{category.category}</h3>
+              <p className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                {category.count}
+              </p>
+              <p className="text-sm text-gray-600 mt-1">Active Projects</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Impact Highlights */}
-      <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
-        <h2 className="text-2xl font-bold mb-4">Impact Highlights</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <p className="text-green-100 mb-1">Transparency</p>
-            <p className="text-xl font-semibold">100% Digital Tracking</p>
+      <div className="relative overflow-hidden bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 rounded-3xl p-8 shadow-2xl">
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+        <div className="relative z-10">
+          <div className="flex items-center mb-6">
+            <Award size={32} className="text-yellow-300 mr-3" />
+            <h2 className="text-3xl font-bold text-white">Impact Highlights</h2>
           </div>
-          <div>
-            <p className="text-green-100 mb-1">Accuracy</p>
-            <p className="text-xl font-semibold">AI-Based Selection</p>
-          </div>
-          <div>
-            <p className="text-green-100 mb-1">Accountability</p>
-            <p className="text-xl font-semibold">Complete Audit Trail</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl p-6 transform hover:scale-105 transition-all">
+              <div className="flex items-center mb-3">
+                <Target size={24} className="text-yellow-300 mr-2" />
+                <p className="text-white text-opacity-90 font-semibold">Transparency</p>
+              </div>
+              <p className="text-2xl font-bold text-white">100% Digital</p>
+              <p className="text-white text-opacity-80 text-sm mt-1">Complete project tracking</p>
+            </div>
+            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl p-6 transform hover:scale-105 transition-all">
+              <div className="flex items-center mb-3">
+                <Zap size={24} className="text-yellow-300 mr-2" />
+                <p className="text-white text-opacity-90 font-semibold">Accuracy</p>
+              </div>
+              <p className="text-2xl font-bold text-white">AI-Powered</p>
+              <p className="text-white text-opacity-80 text-sm mt-1">Smart beneficiary selection</p>
+            </div>
+            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl p-6 transform hover:scale-105 transition-all">
+              <div className="flex items-center mb-3">
+                <CheckCircle size={24} className="text-yellow-300 mr-2" />
+                <p className="text-white text-opacity-90 font-semibold">Accountability</p>
+              </div>
+              <p className="text-2xl font-bold text-white">Full Audit Trail</p>
+              <p className="text-white text-opacity-80 text-sm mt-1">Every action logged</p>
+            </div>
           </div>
         </div>
       </div>
@@ -193,4 +273,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

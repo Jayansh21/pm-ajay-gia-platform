@@ -1,29 +1,42 @@
 {
   "name": "pm-ajay-gia-platform",
   "version": "1.0.0",
-  "description": "PM-AJAY GIA Beneficiary Management System",
+  "description": "AI-Powered Beneficiary Management System for PM-AJAY GIA",
   "main": "server/index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/index.js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "vercel-build": "cd client && npm run build"
   },
-  "keywords": ["pm-ajay", "beneficiary", "gia"],
-  "author": "",
+  "keywords": [
+    "beneficiary-management",
+    "react",
+    "nodejs",
+    "express",
+    "sqlite",
+    "ai-scoring",
+    "hackathon",
+    "pm-ajay",
+    "social-welfare",
+    "government-platform"
+  ],
+  "author": "PM-AJAY GIA Team",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
-    "cors": "^2.8.5",
     "sqlite3": "^5.1.6",
-    "body-parser": "^1.20.2",
-    "uuid": "^9.0.0",
-    "dotenv": "^16.3.1"
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
-    "concurrently": "^8.2.1"
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
-

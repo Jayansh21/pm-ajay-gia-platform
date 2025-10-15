@@ -76,52 +76,62 @@ const BeneficiaryRegistration = () => {
 
   if (success) {
     return (
-      <div className="max-w-2xl mx-auto mt-20">
-        <div className="card bg-green-50 border-2 border-green-200 text-center">
-          <div className="flex justify-center mb-4">
-            <div className="rounded-full bg-green-500 p-3">
-              <Save size={32} className="text-white" />
+      <div className="max-w-2xl mx-auto mt-20 animate-fadeIn">
+        <div className="glass-card text-center">
+          <div className="flex justify-center mb-6">
+            <div className="rounded-full bg-gradient-to-r from-green-500 to-emerald-600 p-4 animate-pulse-slow glow-green">
+              <Save size={48} className="text-white" />
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-green-800 mb-2">Registration Successful!</h2>
-          <p className="text-green-700">Beneficiary has been registered successfully.</p>
-          <p className="text-sm text-gray-600 mt-2">Redirecting to beneficiaries list...</p>
+          <h2 className="text-4xl font-bold gradient-text mb-3">Registration Successful!</h2>
+          <p className="text-xl text-gray-700 mb-2">Beneficiary has been registered successfully.</p>
+          <div className="mt-6 inline-flex items-center bg-gradient-to-r from-green-100 to-emerald-100 px-6 py-3 rounded-full">
+            <div className="spinner mr-3"></div>
+            <p className="text-sm font-semibold text-green-800">Redirecting to beneficiaries list...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => navigate('/beneficiaries')}
-          className="p-2 hover:bg-gray-100 rounded-lg"
-        >
-          <ArrowLeft size={24} />
-        </button>
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Register New Beneficiary</h1>
-          <p className="text-gray-600 mt-1">Add SC beneficiary for PM-AJAY GIA program</p>
+      <div className="glass-card">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/beneficiaries')}
+            className="p-3 hover:bg-indigo-100 rounded-xl transition-all transform hover:scale-110"
+          >
+            <ArrowLeft size={24} className="text-indigo-600" />
+          </button>
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold gradient-text">Register New Beneficiary</h1>
+            <p className="text-gray-600 mt-2 text-lg">Add SC beneficiary for PM-AJAY GIA program with AI-powered eligibility scoring</p>
+          </div>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
-          <AlertCircle className="text-red-600 mr-3 flex-shrink-0" size={20} />
+        <div className="alert alert-error animate-slideIn">
+          <AlertCircle className="flex-shrink-0" size={24} />
           <div>
-            <h3 className="font-medium text-red-800">Registration Failed</h3>
-            <p className="text-red-700 text-sm">{error}</p>
+            <h3 className="font-bold text-lg">Registration Failed</h3>
+            <p className="text-sm">{error}</p>
           </div>
         </div>
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="card space-y-6">
+      <form onSubmit={handleSubmit} className="glass-card space-y-8">
         {/* Personal Information */}
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Personal Information</h2>
+          <div className="flex items-center mb-6">
+            <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mr-3">
+              <Save size={24} className="text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900">Personal Information</h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -385,17 +395,35 @@ const BeneficiaryRegistration = () => {
         </div>
 
         {/* Info Box */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-medium text-blue-900 mb-2">AI-Based Eligibility Assessment</h3>
-          <p className="text-sm text-blue-800">
-            Upon registration, our AI system will automatically calculate an eligibility score based on:
-          </p>
-          <ul className="list-disc list-inside text-sm text-blue-800 mt-2 space-y-1">
-            <li>Annual income (lower income = higher priority)</li>
-            <li>Education level (less education = higher priority)</li>
-            <li>Family size (larger families = higher priority)</li>
-            <li>SC category verification (mandatory requirement)</li>
-          </ul>
+        <div className="relative overflow-hidden bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 text-white shadow-xl">
+          <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
+          <div className="relative z-10">
+            <h3 className="font-bold text-2xl mb-3 flex items-center">
+              <span className="text-3xl mr-3">🤖</span>
+              AI-Based Eligibility Assessment
+            </h3>
+            <p className="text-blue-100 mb-4 text-lg">
+              Upon registration, our intelligent AI system will automatically calculate an eligibility score based on:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-3">
+                <p className="font-semibold">💰 Annual Income</p>
+                <p className="text-sm text-blue-100">Lower income = Higher priority</p>
+              </div>
+              <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-3">
+                <p className="font-semibold">🎓 Education Level</p>
+                <p className="text-sm text-blue-100">Less education = Higher priority</p>
+              </div>
+              <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-3">
+                <p className="font-semibold">👨‍👩‍👧‍👦 Family Size</p>
+                <p className="text-sm text-blue-100">Larger families = Higher priority</p>
+              </div>
+              <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-3">
+                <p className="font-semibold">✅ SC Verification</p>
+                <p className="text-sm text-blue-100">Mandatory requirement</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Submit Button */}
@@ -403,16 +431,16 @@ const BeneficiaryRegistration = () => {
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary flex-1 flex items-center justify-center"
+            className="btn-primary flex-1 flex items-center justify-center text-lg py-4"
           >
             {loading ? (
               <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Processing...
+                <div className="spinner mr-3"></div>
+                Processing Registration...
               </>
             ) : (
               <>
-                <Save size={20} className="mr-2" />
+                <Save size={24} className="mr-3" />
                 Register Beneficiary
               </>
             )}
@@ -420,7 +448,7 @@ const BeneficiaryRegistration = () => {
           <button
             type="button"
             onClick={() => navigate('/beneficiaries')}
-            className="btn-secondary"
+            className="btn-secondary px-8 py-4"
           >
             Cancel
           </button>
@@ -431,4 +459,5 @@ const BeneficiaryRegistration = () => {
 };
 
 export default BeneficiaryRegistration;
+
 

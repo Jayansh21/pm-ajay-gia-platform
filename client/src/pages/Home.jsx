@@ -51,30 +51,20 @@ const Home = () => {
     setInitMessage('');
     
     try {
-      // Try API first
       const response = await fetch('/api/init-db');
+      const data = await response.json();
       
       if (response.ok) {
-        const data = await response.json();
         setInitMessage(`✅ ${data.message}`);
+        // Redirect to dashboard after successful initialization
         setTimeout(() => {
           window.location.href = '/app/dashboard';
         }, 2000);
       } else {
-        // Fallback: Set demo mode and redirect
-        localStorage.setItem('demoMode', 'true');
-        setInitMessage(`✅ Demo data loaded! The database will be populated on the next page load.`);
-        setTimeout(() => {
-          window.location.href = '/app/dashboard';
-        }, 2000);
+        setInitMessage(`❌ Error: ${data.error}`);
       }
     } catch (error) {
-      // Fallback: Set demo mode and redirect
-      localStorage.setItem('demoMode', 'true');
-      setInitMessage(`✅ Demo data loaded! The database will be populated on the next page load.`);
-      setTimeout(() => {
-        window.location.href = '/app/dashboard';
-      }, 2000);
+      setInitMessage(`❌ Failed to initialize: ${error.message}`);
     } finally {
       setIsInitializing(false);
     }
@@ -266,19 +256,19 @@ const Home = () => {
                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
                    <Link 
                      to="/app/dashboard" 
-                     className="inline-flex items-center bg-yellow-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                     className="inline-flex items-center bg-white text-green-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl"
                    >
                      <BarChart3 size={24} className="mr-3" />
-                     🚀 Access Platform with Demo Data
+                     Access Platform
                      <ArrowRight size={20} className="ml-3" />
                    </Link>
                    <button
                      onClick={initializeDemoData}
                      disabled={isInitializing}
-                     className="inline-flex items-center bg-white text-indigo-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                     className="inline-flex items-center bg-yellow-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                    >
                      <Database size={24} className="mr-3" />
-                     {isInitializing ? 'Loading Demo Data...' : 'Load Demo Data'}
+                     {isInitializing ? 'Initializing...' : 'Load Demo Data'}
                    </button>
                    <Link 
                      to="/app/beneficiaries/register" 

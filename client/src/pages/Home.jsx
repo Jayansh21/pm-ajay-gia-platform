@@ -61,14 +61,16 @@ const Home = () => {
           window.location.href = '/app/dashboard';
         }, 2000);
       } else {
-        // Fallback: Show demo data loaded message
+        // Fallback: Set demo mode and redirect
+        localStorage.setItem('demoMode', 'true');
         setInitMessage(`✅ Demo data loaded! The database will be populated on the next page load.`);
         setTimeout(() => {
           window.location.href = '/app/dashboard';
         }, 2000);
       }
     } catch (error) {
-      // Fallback: Show demo data loaded message
+      // Fallback: Set demo mode and redirect
+      localStorage.setItem('demoMode', 'true');
       setInitMessage(`✅ Demo data loaded! The database will be populated on the next page load.`);
       setTimeout(() => {
         window.location.href = '/app/dashboard';
@@ -261,31 +263,31 @@ const Home = () => {
           <p className="text-xl text-white text-opacity-90 mb-8 max-w-2xl mx-auto">
             Join us in creating a more equitable and efficient system for SC community development and empowerment.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/app/dashboard" 
-              className="inline-flex items-center bg-white text-green-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl"
-            >
-              <BarChart3 size={24} className="mr-3" />
-              Access Platform
-              <ArrowRight size={20} className="ml-3" />
-            </Link>
-            <button
-              onClick={initializeDemoData}
-              disabled={isInitializing}
-              className="inline-flex items-center bg-yellow-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <Database size={24} className="mr-3" />
-              {isInitializing ? 'Initializing...' : 'Load Demo Data'}
-            </button>
-            <Link 
-              to="/app/beneficiaries/register" 
-              className="inline-flex items-center bg-white bg-opacity-20 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-opacity-30 transition-all duration-300 border-2 border-white border-opacity-30"
-            >
-              <Users size={24} className="mr-3" />
-              Register Beneficiary
-            </Link>
-          </div>
+                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                   <button
+                     onClick={initializeDemoData}
+                     disabled={isInitializing}
+                     className="inline-flex items-center bg-yellow-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                   >
+                     <Database size={24} className="mr-3" />
+                     {isInitializing ? 'Loading Demo Data...' : '🚀 Load Demo Data & Access Platform'}
+                   </button>
+                   <Link 
+                     to="/app/dashboard" 
+                     className="inline-flex items-center bg-white text-green-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                   >
+                     <BarChart3 size={24} className="mr-3" />
+                     Access Platform
+                     <ArrowRight size={20} className="ml-3" />
+                   </Link>
+                   <Link 
+                     to="/app/beneficiaries/register" 
+                     className="inline-flex items-center bg-white bg-opacity-20 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-opacity-30 transition-all duration-300 border-2 border-white border-opacity-30"
+                   >
+                     <Users size={24} className="mr-3" />
+                     Register Beneficiary
+                   </Link>
+                 </div>
           
           {initMessage && (
             <div className="mt-6 p-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl border border-white border-opacity-30 max-w-md mx-auto">

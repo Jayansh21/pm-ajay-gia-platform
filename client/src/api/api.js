@@ -12,9 +12,21 @@ const api = axios.create({
 
 // Helper function to use demo data as fallback
 const withDemoFallback = async (apiCall, demoData) => {
+  // Check if demo mode is enabled
+  if (localStorage.getItem('demoMode') === 'true') {
+    console.log('Demo mode enabled, using demo data');
+    return { data: demoData };
+  }
+  
   try {
     const response = await apiCall();
-    return response;
+    // Check if response is successful (status 200-299)
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    } else {
+      console.log('API returned non-success status, using demo data:', response.status);
+      return { data: demoData };
+    }
   } catch (error) {
     console.log('API failed, using demo data:', error.message);
     return { data: demoData };
